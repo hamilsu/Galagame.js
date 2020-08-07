@@ -1,12 +1,22 @@
-class mainScene {
 
-}
+var gameSettings = {
+    playerSpeed: 200
+  }
 
-new Phaser.Game( {
+var config = {
+    type:Phaser.AUTO,
     width: 1200,
-    height: 700,
-    backgroundColor: "#000000",
-    scene: mainScene,
-    physics: {default: "arcade"},
-    parent: "game"
-} );
+    height: 900,
+    backgroundColor: 0x000000,
+    scene: [Scene1,Scene2],
+    pixelArt: true,
+    physics: {
+      default: "arcade",
+      arcade:{
+          debug: false
+      }
+    }
+  }
+  window.onload = function(){
+  var game = new Phaser.Game(config);
+  }
