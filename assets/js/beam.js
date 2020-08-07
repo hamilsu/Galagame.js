@@ -1,4 +1,5 @@
 class Beam extends Phaser.GameObjects.Sprite {
+
   constructor(scene) {
       var x = scene.player.x;
       var y = scene.player.y - 16;
@@ -18,5 +19,4 @@ class Beam extends Phaser.GameObjects.Sprite {
       }
   }
 }
-
 
