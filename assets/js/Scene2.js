@@ -48,7 +48,7 @@ class Scene2 extends Phaser.Scene {
     const explosion = new Explosion(this, enemy.x, enemy.y);
 
     projectile.destroy();
-    this.resetShipPos(enemy);
+    
     this.score += 15;
 
     const scoreFormated = this.zeroPad(this.score, 6);
@@ -72,7 +72,7 @@ destroyShip(pointer, gameObject) {
 // when the player is hit by the enemy
 hurtPlayer(player, enemy) {
 
-    this.resetShipPos(enemy);
+    
 
     if (this.player.alpha < 1) {
         return;
