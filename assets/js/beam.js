@@ -1,20 +1,22 @@
 class Beam extends Phaser.GameObjects.Sprite {
-    constructor(scene) {
-        var x = scene.player.x;
-        var y = scene.player.y - 16;
 
-        super(scene, x, y, "beam");
+  constructor(scene) {
+      var x = scene.player.x;
+      var y = scene.player.y - 16;
 
-        scene.add.existing(this);
+      super(scene, x, y, "beam");
 
-        this.play("beam_anim");
-        scene.physics.world.enableBody(this);
-        this.body.velocity.y = -250;
-    }
+      scene.add.existing(this);
 
-    update() {
-        if(this.y < 32) {
-            this.destroy();
-        }
-    }
+      this.play("beam_anim");
+      scene.physics.world.enableBody(this);
+      this.body.velocity.y = -250;
+  }
+
+  update() {
+      if(this.y < 32) {
+          this.destroy();
+      }
+  }
 }
+
