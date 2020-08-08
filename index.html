@@ -18,5 +18,23 @@
             <h2>A Galaga lookalike built entirely from JavaScript using Phaser 3!</h2>
             <div id="game"></div>
             <p>Use AD to move and destory the enemies!</p>
+            
+            <script>
+                function showNotification() {
+                    const showNotification = new Notification("New Message from Galagame.js", {body: "Hey thank you for playing our game!"});
+                }
+                console.log(Notification.permission);
+
+                if (Notification.permission === "granted") {
+                    showNotification();
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(permission => {
+                        if (permission ==="granted"){
+                    showNotification();
+                        }
+                    });
+                }
+            </script>
+            
         </body>
     </html>

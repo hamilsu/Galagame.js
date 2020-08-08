@@ -89,6 +89,7 @@ class Scene2 extends Phaser.Scene {
     powerUp.disableBody(true, true);
     this.pickupSound.play();
     this.score += 100;
+    this.scoreLabel.text = "SCORE" + this.score;
   }
 
   hitEnemy(projectile, enemy) {
