@@ -53,7 +53,7 @@ class Scene2 extends Phaser.Scene {
     this.score = 0;
     this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE: " , 32);
 
-
+ 
 
     this.spawnEnemyBlock();
      
