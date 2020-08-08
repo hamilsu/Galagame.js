@@ -32,6 +32,10 @@ class Scene2 extends Phaser.Scene {
       this.powerUps.add(powerUp);
       powerUp.setRandomPosition(0,0, config.width, config.height);
 
+
+      this.projectiles = this.physics.add.group();
+      this.enemies = this.physics.add.group();
+
       if (Math.random() > 0.5) {
         powerUp.play("red");
       } else {
@@ -45,18 +49,24 @@ class Scene2 extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
     this.pickupSound = this.sound.add("audio_pickup");
 
+
     this.score = 0;
     this.scorelabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:" , 32);
 
 
-    this.enemies = this.physics.add.group();
-    this.waitPeriod = 2500
+
     this.spawnEnemyBlock();
      
-    this.timeToFlip = false;
-    this.alreadyCalled = false;
-    this.resetTimer = false;
-    this.enemyVelocityReversed = false;
+
+      this.timeToFlip = false;
+      this.alreadyCalled = false;
+      this.resetTimer = false;
+      this.enemyVelocityReversed = false;
+
+      this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
+      this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
+
+  
   }
 
   update(){
@@ -112,41 +122,9 @@ destroyShip(pointer, gameObject) {
 // when the player is hit by the enemy
 hurtPlayer(player, enemy) {
 
-    
-
-    if (this.player.alpha < 1) {
-        return;
-    }
-
-    player.disableBody(true, true);
-
-    this.time.addEvent({
-        delay: 1000,
-        callback: this.resetPlayer,
-        callbackScope: this,
-        loop: false
-    });
 }
+   
 
-// resets the player position
-resetPlayer() {
-    var x = config.width / 2 - 8;
-    var y = config.height + 64;
-    this.player.enableBody(true, x, y, true, true);
-
-    this.player.alpha = 0.5;
-    const tween = this.tweens.add({
-        targets: this.player,
-        y: config.height - 64,
-        ease: 'Power1',
-        duration: 1500,
-        repeat: 0,
-        onComplete: function () {
-        this.player.alpha = 1;
-        },
-        callbackScope: this
-    });
-}
 
 movePlayerManager(){
 
