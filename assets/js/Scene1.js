@@ -34,9 +34,15 @@ class Scene1 extends Phaser.Scene {
         frameWidth: 16,
         frameHeight: 16
     } );
+
     this.load.spritesheet("beam", "assets/img/beam.png", {
         frameHeight: 16,
         frameWidth: 16
+    } );
+
+    this.load.spritesheet("power-up", "assets/img/power-up.png",{
+      frameWidth: 16,
+      frameHeight: 16
     } );
 
     // Audio Loading
