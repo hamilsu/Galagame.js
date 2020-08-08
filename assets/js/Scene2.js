@@ -42,8 +42,7 @@ class Scene2 extends Phaser.Scene {
       powerUp.setCollideWorldBounds(true);
       powerUp.setBounce(1);
     }
-    this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
-    this.pickupSound = this.sound.add("audio_pickup");
+    
 
     this.score = 0;
     this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE: " , 32);
@@ -51,6 +50,7 @@ class Scene2 extends Phaser.Scene {
 
 
     this.enemies = this.physics.add.group();
+    this.projectiles = this.physics.add.group();
     this.waitPeriod = 2500
 
     this.spawnEnemyBlock();
@@ -59,6 +59,12 @@ class Scene2 extends Phaser.Scene {
     this.alreadyCalled = false;
     this.resetTimer = false;
     this.enemyVelocityReversed = false;
+    
+    this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
+    this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
+    this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
+
+    this.pickupSound = this.sound.add("audio_pickup");
   }
 
   update(){
