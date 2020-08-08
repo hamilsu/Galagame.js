@@ -49,8 +49,10 @@ class Scene2 extends Phaser.Scene {
     this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE: " , 32);
 
 
+
     this.enemies = this.physics.add.group();
     this.waitPeriod = 2500
+
     this.spawnEnemyBlock();
      
     this.timeToFlip = false;
