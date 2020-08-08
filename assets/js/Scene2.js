@@ -51,7 +51,7 @@ class Scene2 extends Phaser.Scene {
 
 
     this.score = 0;
-    this.scorelabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:" , 32);
+    this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE: " , 32);
 
 
 
@@ -98,11 +98,11 @@ class Scene2 extends Phaser.Scene {
     const explosion = new Explosion(this, enemy.x, enemy.y);
 
     projectile.destroy();
-    
+    enemy.destroy();
     this.score += 15;
 
     const scoreFormated = this.zeroPad(this.score, 6);
-    this.scoreLabel.text = SCORE  + scoreFormated;
+    this.scoreLabel.text = 'SCORE: '  + scoreFormated;
 }
   // used for score formatting
   zeroPad(number, size) {
