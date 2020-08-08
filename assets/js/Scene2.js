@@ -26,7 +26,7 @@ class Scene2 extends Phaser.Scene {
 
       this.scorelabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:" , 32);
 
-
+      this.projectiles = this.physics.add.group();
       this.enemies = this.physics.add.group();
 
 
@@ -38,6 +38,9 @@ class Scene2 extends Phaser.Scene {
       this.alreadyCalled = false;
       this.resetTimer = false;
       this.enemyVelocityReversed = false;
+
+      this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
+      this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
   }
 
   update(){
@@ -89,41 +92,9 @@ destroyShip(pointer, gameObject) {
 // when the player is hit by the enemy
 hurtPlayer(player, enemy) {
 
-    
-
-    if (this.player.alpha < 1) {
-        return;
-    }
-
-    player.disableBody(true, true);
-
-    this.time.addEvent({
-        delay: 1000,
-        callback: this.resetPlayer,
-        callbackScope: this,
-        loop: false
-    });
 }
+   
 
-// resets the player position
-resetPlayer() {
-    var x = config.width / 2 - 8;
-    var y = config.height + 64;
-    this.player.enableBody(true, x, y, true, true);
-
-    this.player.alpha = 0.5;
-    const tween = this.tweens.add({
-        targets: this.player,
-        y: config.height - 64,
-        ease: 'Power1',
-        duration: 1500,
-        repeat: 0,
-        onComplete: function () {
-        this.player.alpha = 1;
-        },
-        callbackScope: this
-    });
-}
 
 movePlayerManager(){
 
