@@ -80,6 +80,7 @@ class Scene2 extends Phaser.Scene {
   pickPowerUp(player, powerUp){
     powerUp.disableBody(true, true);
     this.pickupSound.play();
+    this.score += 100;
   }
 
   hitEnemy(projectile, enemy) {
