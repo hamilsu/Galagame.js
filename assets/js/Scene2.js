@@ -22,22 +22,41 @@ class Scene2 extends Phaser.Scene {
 
     this.player.setCollideWorldBounds(true);
 
+    // Power-Ups Physics
+
+    this.powerUps = this.physics.add.group();
+
+    var maxObjects = 4;
+    for (var i =0; i <= maxObjects; i++) {
+      var powerUp = this.physics.add.sprite(16,16, "power-up");
+      this.powerUps.add(powerUp);
+      powerUp.setRandomPosition(0,0, config.width, config.height);
+
+      if (Math.random() > 0.5) {
+        powerUp.play("red");
+      } else {
+        powerUp.play("gray");
+      }
+
+      powerUp.setVelocity(100, 100);
+      powerUp.setCollideWorldBounds(true);
+      powerUp.setBounce(1);
+    }
+    this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
+    this.pickupSound = this.sound.add("audio_pickup");
+
     this.score = 0;
-
-      this.scorelabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:" , 32);
-
-
-      this.enemies = this.physics.add.group();
+    this.scorelabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:" , 32);
 
 
-     this.waitPeriod = 2500
-
-      this.spawnEnemyBlock();
+    this.enemies = this.physics.add.group();
+    this.waitPeriod = 2500
+    this.spawnEnemyBlock();
      
-      this.timeToFlip = false;
-      this.alreadyCalled = false;
-      this.resetTimer = false;
-      this.enemyVelocityReversed = false;
+    this.timeToFlip = false;
+    this.alreadyCalled = false;
+    this.resetTimer = false;
+    this.enemyVelocityReversed = false;
   }
 
   update(){
@@ -58,7 +77,10 @@ class Scene2 extends Phaser.Scene {
     }
   }
 
-  
+  pickPowerUp(player, powerUp){
+    powerUp.disableBody(true, true);
+    this.pickupSound.play();
+  }
 
   hitEnemy(projectile, enemy) {
 
