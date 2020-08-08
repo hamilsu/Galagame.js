@@ -20,24 +20,41 @@ class Scene2 extends Phaser.Scene {
     this.player.setScale(2);
     this.player.play("thrust");
 
+    this.player.setCollideWorldBounds(true);
+
     this.score = 0;
 
       this.scorelabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE:" , 32);
 
 
-      this.enemies = this.add.group();
+      this.enemies = this.physics.add.group();
 
-     
+
+     this.waitPeriod = 2500
 
       this.spawnEnemyBlock();
+     
+      this.timeToFlip = false;
+      this.alreadyCalled = false;
+      this.resetTimer = false;
+      this.enemyVelocityReversed = false;
   }
 
   update(){
+    
     this.movePlayerManager();
-
+    
     for (var i = 0; i < this.enemies.getChildren().length; i++){
       var enemy = this.enemies.getChildren()[i];
-      enemy.update();
+      enemy.update(this);
+    }
+    if(this.resetTimer){
+      this.alreadyCalled = false;
+      this.resetTimer = false;
+      this.timeToFlip = false;
+    }
+    if(this.timeToFlip && !this.alreadyCalled){
+      this.reachedBounds()
     }
   }
 
@@ -143,20 +160,51 @@ spawnEnemyBlock(){
   const rightBoundary = config.width - 128;
 
   //spawns 1 row of enemy type 3, and 2 rows of the other two types.
-  this.spawnEnemyRow(cursorVerticalPosition,3,5,rightBoundary)
+  this.spawnEnemyRow(cursorVerticalPosition,3,5,rightBoundary);
   cursorVerticalPosition +=verticalBuffer;
-  this.spawnEnemyRow(cursorVerticalPosition,2,4,rightBoundary)
+  this.spawnEnemyRow(cursorVerticalPosition,2,4,rightBoundary);
   cursorVerticalPosition +=verticalBuffer;
-  this.spawnEnemyRow(cursorVerticalPosition,2,3,rightBoundary)
+  this.spawnEnemyRow(cursorVerticalPosition,2,3,rightBoundary);
   cursorVerticalPosition +=verticalBuffer;
-  this.spawnEnemyRow(cursorVerticalPosition,1,2,rightBoundary)
+  this.spawnEnemyRow(cursorVerticalPosition,1,2,rightBoundary);
   cursorVerticalPosition +=verticalBuffer;
-  this.spawnEnemyRow(cursorVerticalPosition,1,1,rightBoundary)
+  this.spawnEnemyRow(cursorVerticalPosition,1,1,rightBoundary);
   return;
   }
   shootBeam(){
     var beam = new Beam(this);
   }
-
+reachedBounds(){
+  this.alreadyCalled = true;
+  for (var i = 0; i < this.enemies.getChildren().length; i++){
+    let enemy = this.enemies.getChildren()[i];
+    enemy.body.setVelocityX(0);
+    enemy.body.setVelocityY(gameSettings.enemySpeed/2);
+  }
+  
+  this.time.delayedCall(1000,this.resumeMovement,[],this);
 }
+resumeMovement(){
+  gameSettings.enemySpeed +=10;
+  if(this.enemyVelocityReversed){
+    for (var i = 0; i < this.enemies.getChildren().length; i++){
+      let enemy = this.enemies.getChildren()[i];
+      enemy.body.setVelocityY(0);
+      enemy.body.setVelocityX(gameSettings.enemySpeed);
+    }
+    this.enemyVelocityReversed = false;
+  }
+  else{
+    for (var i = 0; i < this.enemies.getChildren().length; i++){
+      let enemy = this.enemies.getChildren()[i];
+      enemy.body.setVelocityY(0);
+      enemy.body.setVelocityX(-gameSettings.enemySpeed);
+      }
+      this.enemyVelocityReversed = true;
+    }
+    this.time.delayedCall(2500, ()=>this.resetTimer = true, [], this);
+  }
+  
+}
+
 
